@@ -1,16 +1,40 @@
 import { Box, Button, Stack, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { exerciseOptions, fetchData } from '../utils/fetchData';
+import HorizontalScrollbar from './HorizontalScrollbar';
 
-const SearchExercise = () => {
+const SearchExercise = ({bodyPart, setBodyPart, setExercises}) => {
 
   const [search, setSearch] = useState('');
-  const [exercises, setExercises] = useState([]);
+ 
+  const [bodyParts, setBodyParts] = useState([]);
+
+
+  useEffect(() => {
+    const fetchBodyPartsData = async () => {
+      const bodyPartsData = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', exerciseOptions);
+      setBodyParts(['all', ...bodyPartsData]);
+    }
+
+    fetchBodyPartsData();
+
+  }, [])
+
+//  console.log(bodyParts);
 
   const handleSearch = async() => {
     if(search){
       const exerciseData = await fetchData('https://exercisedb.p.rapidapi.com/exercises/', exerciseOptions);
-      console.log(exerciseData);
+      //console.log(exerciseData);
+
+      const searchedExercises = exerciseData.filter(
+        (exercise) => exercise.name.toLowerCase().includes(search) || 
+        exercise.bodyPart.toLowerCase().includes(search) || 
+        exercise.target.toLowerCase().includes(search) || 
+        exercise.equipment.toLowerCase().includes(search)
+      )
+      setSearch('');
+      setExercises(searchedExercises);
     }
   }
 
@@ -30,6 +54,11 @@ const SearchExercise = () => {
       <Button className="search-btn" sx={{ bgcolor: '#FF2625', color: '#fff', 
         textTransform: 'none', width: { lg: '173px', xs: '80px' }, height: '56px', 
         position: 'absolute', right: '0px', fontSize: { lg: '20px', xs: '14px' } }} onClick={handleSearch}>Search</Button>
+      </Box>
+
+      <Box sx={{position: 'relative', width: '100%', p: '20px'}}>
+        <HorizontalScrollbar data={bodyParts} bodyPart={bodyPart} setBodyPart={setBodyPart} />
+
       </Box>
     </Stack>
   )

@@ -8,7 +8,7 @@ const BodyPart = ({item, bodyPart, setBodyPart}) => {
     type="button"
     alignItems="center"
     justifyContent="center"
-    classname="bodyPart-card"
+    className="bodyPart-card"
     onClick={() => {
         setBodyPart(item);
         window.scrollTo({top: 1800, left: 100, behaviour: 'smooth'})

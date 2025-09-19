@@ -37,7 +37,7 @@ const SearchExercise = ({bodyPart, setBodyPart, setExercises}) => {
       setExercises(searchedExercises);
 
 //       console.log("Search term:", search);
-    console.log("Fetched data:", exerciseData);
+  //console.log("Fetched data:", exerciseData);
 // console.log("Filtered results:", searchedExercises);
 
       

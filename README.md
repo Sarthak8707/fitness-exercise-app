@@ -31,6 +31,6 @@ This app allows users to **search exercises**, **filter by body part**, and **ex
 Clone the repo and install dependencies:
 
 ```bash
-git clone https://github.com/<your-username>/fitness-exercise-app.git
+git clone https://github.com/Sarthak8707/fitness-exercise-app.git
 cd fitness-exercise-app
 npm install

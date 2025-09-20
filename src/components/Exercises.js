@@ -1,6 +1,7 @@
 import { Box, Grid, Pagination, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ExerciseCard from "./ExerciseCard";
+import { exerciseOptions, fetchData } from "../utils/fetchData";
 
 const Exercises = ({ exercises, setExercises, bodyPart }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,6 +17,23 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
   const indexOfFirstExercise = indexOfLastExercise-exercisesPerPage;
 
   const currentExercises = exercises.slice(indexOfFirstExercise, indexOfLastExercise);
+
+  useEffect(() => {
+    const fetchExercisesData = async () => {
+      let exerciseCategoryData = [];
+
+      if(bodyPart == 'all'){
+        exerciseCategoryData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises`, exerciseOptions)
+      }
+      else{
+        exerciseCategoryData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, exerciseOptions);
+      }
+      setExercises(exerciseCategoryData);
+    }
+    fetchExercisesData();
+  }, [bodyPart])
+
+  //console.log(exercises);
 
   return (
     <Box
